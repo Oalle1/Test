@@ -58,7 +58,7 @@ public class Gameplay : MonoBehaviour
         }
     }
 
-    // This function check if there is a tile where we want to move our tile (not finished yet)
+    // This function check if there is another tile where we want to move our tile, and exchange the tiles we want to move and the empty tile (not finished yet)
     public bool NoTilesUnder(Vector2 vect,int id)
     {
         int tmp=0,tmp2=0;
