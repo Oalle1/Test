@@ -26,7 +26,9 @@ public class Tile : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHand
 		game = transform.parent.GetComponent<Gameplay>();
 	}
 
-	// Check every frame if the Tile is in the right position and communicate it.
+	/// <summary>
+	/// Check every frame if the Tile is in the right position and communicate it.
+	/// </summary>
 	private void Update()
 	{
 		isCorrect = (positionInitial == rectTransform.anchoredPosition) ? true : false;
@@ -34,7 +36,9 @@ public class Tile : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHand
 
 	}
 
-	// When clicking on a tile, keep it's initial position.
+	/// <summary>
+	/// When clicking on a tile, keep it's initial position.
+	/// </summary>
 	public void OnBeginDrag(PointerEventData eventData)
 	{
 		startPosition = rectTransform.anchoredPosition;
@@ -46,54 +50,53 @@ public class Tile : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHand
 
 	}
 
-	//Check if the Tile is drop near a position where could be and directly position itself in the right spot.
-	//I wanted to use this function to check if we dont move our Tile for more than one movement and check if we don't put our tile on another one but
-	// it was very buggy and it needs work.
+	/// <summary>
+	///Check if the Tile is drop near a position where could be and directly position itself in the right spot.
+	///I wanted to use this function to check if we dont move our Tile for more than one movement and check if we don't put our tile on another one but
+	/// it is very buggy and it needs work.
+	/// </summary>
 	public void OnDrop(PointerEventData eventData)
 	{
 		tmpPosition = rectTransform.anchoredPosition;
-		//&& startPosition.x + 150 < tmpPosition.x && startPosition.x - 150 > tmpPosition.x && startPosition.y + 150 < tmpPosition.y && startPosition.y - 150 > tmpPosition.y
-		if (startPosition != tmpPosition )
+		if (startPosition.x + 150 > tmpPosition.x && startPosition.x - 150 < tmpPosition.x && startPosition.y + 150 > tmpPosition.y && startPosition.y - 150 < tmpPosition.y)
 		{
-			if (50 < tmpPosition.x && 50 <tmpPosition.y )
-				tmpPosition = new Vector2(100, 100);
-			else if (50 < tmpPosition.x && -50 < tmpPosition.y)
-				tmpPosition = new Vector2(100,0);
-			else if (50 < tmpPosition.x)
-				tmpPosition = new Vector2(100, -100);
-			else if (-50 < tmpPosition.x && 50 < tmpPosition.y)
-				tmpPosition = new Vector2(0, 100);
-			else if (-50 < tmpPosition.x && -50 < tmpPosition.y)
-				tmpPosition = new Vector2(0, 0);
-			else if (-50 < tmpPosition.x)
-				tmpPosition = new Vector2(0, -100);
-			else if (50 < tmpPosition.y)
-				tmpPosition = new Vector2(-100, 100);
-			else if (-50 < tmpPosition.y)
-				tmpPosition = new Vector2(-100, 0);
-			else
-				tmpPosition = new Vector2(-100, -100);
-			startPosition = tmpPosition;
-			rectTransform.anchoredPosition = new Vector2(startPosition.x, startPosition.y);
-			
+			if (startPosition != tmpPosition)
+			{
+				if (50 < tmpPosition.x && 50 < tmpPosition.y)
+					tmpPosition = new Vector2(100, 100);
+				else if (50 < tmpPosition.x && -50 < tmpPosition.y)
+					tmpPosition = new Vector2(100, 0);
+				else if (50 < tmpPosition.x)
+					tmpPosition = new Vector2(100, -100);
+				else if (-50 < tmpPosition.x && 50 < tmpPosition.y)
+					tmpPosition = new Vector2(0, 100);
+				else if (-50 < tmpPosition.x && -50 < tmpPosition.y)
+					tmpPosition = new Vector2(0, 0);
+				else if (-50 < tmpPosition.x)
+					tmpPosition = new Vector2(0, -100);
+				else if (50 < tmpPosition.y)
+					tmpPosition = new Vector2(-100, 100);
+				else if (-50 < tmpPosition.y)
+					tmpPosition = new Vector2(-100, 0);
+				else
+					tmpPosition = new Vector2(-100, -100);
+				startPosition = tmpPosition;
+			}
 		}
-		
-			
-		
-		/*if (game.NoTilesUnder(tmpPosition,id))
+		if (game.NoTilesUnder(tmpPosition,id))
         {
-			print("la");
 			startPosition = tmpPosition;
-			positionInitial = startPosition;
 			rectTransform.anchoredPosition = new Vector2(startPosition.x, startPosition.y);
 		}
 		else
         {
-			rectTransform.anchoredPosition = new Vector2(positionInitial.x, positionInitial.y);
-		}*/
+			rectTransform.anchoredPosition = new Vector2(startPosition.x, startPosition.y);
+		}
 	}
 
-	// When we move our mouse, we move our tile as well and check if it's not going out of bounds.
+	/// <summary>
+	/// When we move our mouse, we move our tile as well and check if it's not going out of bounds.
+	/// </summary>
 	public void OnDrag(PointerEventData eventData)
 	{
 		rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
@@ -101,8 +104,9 @@ public class Tile : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDropHand
 	}
 
 
-
-	// Check if the mouse is not out of bounds, if it is, put it back in the playing ground.
+	/// <summary>
+	/// Check if the mouse is not out of bounds, if it is, put it back in the playing ground.
+	/// </summary>
 	private void BorderMap()
 	{
 		if (rectTransform.anchoredPosition.x > 100)

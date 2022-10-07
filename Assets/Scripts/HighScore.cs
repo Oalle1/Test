@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class HighScore : MonoBehaviour
 {
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         if (PlayerPrefs.HasKey("Score"))

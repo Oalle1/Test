@@ -16,12 +16,13 @@ public class Gameplay : MonoBehaviour
     public Text textChrono;
 
 
-
-    // Start is called before the first frame update
-    // We Detect which platform the player use and change the Tiles accordingly
-    // We Shuffle the tiles so they can spwan randomly
-    // We place them on the Canva
-    // Then we start the countdown
+    /// <summary>
+    /// Start is called before the first frame update
+    /// We Detect which platform the player use and change the Tiles accordingly
+    /// We Shuffle the tiles so they can spwan randomly
+    /// We place them on the Canva
+    /// Then we start the countdown
+    /// </summary>
     void Start()
     {
 #if UNITY_ANDROID
@@ -34,7 +35,10 @@ public class Gameplay : MonoBehaviour
         StartCoroutine(Chrono());
     }
 
-    // This function take the sprites of the Logo and transform it into Tiles
+    /// <summary>
+    /// This function take the sprites of the Logo and transform it into Tiles
+    /// </summary>
+    /// <param name="spritesLevel">The sprite to transform in tile</param>
     void InitTile(List<Sprite> spritesLevel)
     {
         for (int i = 0; i < transform.childCount; i++)
@@ -45,7 +49,9 @@ public class Gameplay : MonoBehaviour
         }
     }
 
-    // This function is the Chrono which will be used while the player is playing
+    /// <summary>
+    /// This function is the Chrono which will be used while the player is playing
+    /// </summary>
     private IEnumerator Chrono()
     {
         while (time > 0f)
@@ -58,29 +64,37 @@ public class Gameplay : MonoBehaviour
         }
     }
 
-    // This function check if there is another tile where we want to move our tile, and exchange the tiles we want to move and the empty tile (not finished yet)
+    /// <summary>
+    /// This function check if there is another tile where we want to move our tile, and exchange the tiles we want to move and the empty tile (not working yet)
+    /// </summary>
+    /// <param name="vect">vector where the tile want to go</param>
+    /// <param name="id">indice of the tile</param>
+    /// <returns>true if there is no tile, false otherwise</returns>
     public bool NoTilesUnder(Vector2 vect,int id)
     {
         int tmp=0,tmp2=0;
+        Vector2 vecTemp;
         for (int i = 0; i < shuffleTiles.Count; i++)
         {
-            if (shuffleTiles[i].id != 4&& i!=id)
+            if (shuffleTiles[i].id != 4 && i!=id)
             {
-                if (shuffleTiles[i].positionInitial == vect)
+                if (shuffleTiles[i].startPosition == vect)
                     return false;
             }
             else if (shuffleTiles[i].id == 4)
                 tmp = i;
-            {
+            else
                 tmp2 = i;
-            }
-
         }
+        vecTemp = shuffleTiles[tmp].positionInitial;
         shuffleTiles[tmp].positionInitial = shuffleTiles[tmp2].positionInitial;
+        shuffleTiles[tmp2].positionInitial = vecTemp;
         return true;
     }
 
-    // This function randomise the position of our tile
+    /// <summary>
+    /// This function randomise the position of our tile
+    /// </summary>
     void ShuffleTiles()
     {
         List<Tile> tiles = new List<Tile>();
@@ -96,7 +110,12 @@ public class Gameplay : MonoBehaviour
         
     }
 
-    // Check if a Tile is correctly placed
+    /// <summary>
+    /// Check if a Tile is correctly placed
+    /// </summary>
+    /// <param name="ind">indice of the tile</param>
+    /// <param name="corr">if the tile is correctly placed or not</param>
+    /// <returns>true if the tile is well placed, false otherwise</returns>
     public void CorrectTile(int ind,bool corr)
     {
         for (int i = 0; i<9; i++)
@@ -108,9 +127,12 @@ public class Gameplay : MonoBehaviour
         }
     }
 
-    // The algorithm used to verify if the puzzle is possible using a select sort so we can count how many time we permutade the number
-    // and verify if it's odd or even and compare it to the number of tile which the empty tile is from his original position. 
-    // If it's the same result as the number of permutation, the puzzle is solvable
+    /// <summary>
+    /// The algorithm used to verify if the puzzle is possible using a select sort so we can count how many time we permutade the number
+    /// and verify if it's odd or even and compare it to the number of tile which the empty tile is from his original position. 
+    /// If it's the same result as the number of permutation, the puzzle is solvable
+    /// </summary>
+    /// /// <returns>true if the puzzle is resolvable, false otherwise</returns>
     bool IsResolvable()
     {
         int n = 9;
@@ -161,7 +183,9 @@ public class Gameplay : MonoBehaviour
         return false;
     }
 
-    // We place every Tile on their position and initiate their initial position that they will keep until the end to check if they are placed correctly
+    /// <summary>
+    /// We place every Tile on their position and initiate their initial position that they will keep until the end to check if they are placed correctly
+    /// </summary>
     void Placement()
     {
         for (int i = 0; i < transform.childCount; i++)
@@ -214,7 +238,10 @@ public class Gameplay : MonoBehaviour
         } 
     }
 
-    // Check if every Tiles is well placed
+    /// <summary>
+    /// Check if every Tiles is well placed
+    /// </summary>
+    /// <returns>true if the player won, false otherwise</returns>
     bool finish()
     {
         for (int i = 0; i < 9; i++)
@@ -226,7 +253,9 @@ public class Gameplay : MonoBehaviour
         return true;
     }
 
-    // Check if the player win or lose and save his high score.
+    /// <summary>
+    /// Check if the player win or lose and save his high score.
+    /// </summary>
     void Update()
     {
         if (time <= 0)
